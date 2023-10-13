@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gym.software.pkg2023;
-
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 /**
  *
  * @author faiza
@@ -15,6 +18,7 @@ public class CoachForm extends javax.swing.JFrame {
      */
     public CoachForm() {
         initComponents();
+        DisplayCoach();
     }
 
     /**
@@ -75,21 +79,21 @@ public class CoachForm extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCName = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtCPhone = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtCAge = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CbxCgender = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtCAddress = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        CoachTable = new javax.swing.JTable();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -574,53 +578,69 @@ public class CoachForm extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(35, 40, 45));
         jLabel6.setText("Coach Name");
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCName.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(35, 40, 45));
         jLabel13.setText("Phone Number");
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCPhone.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel14.setBackground(new java.awt.Color(255, 255, 255));
         jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(35, 40, 45));
         jLabel14.setText("Age");
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCAge.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jLabel15.setBackground(new java.awt.Color(255, 255, 255));
         jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(35, 40, 45));
         jLabel15.setText("Gender");
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(35, 40, 45));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        CbxCgender.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        CbxCgender.setForeground(new java.awt.Color(35, 40, 45));
+        CbxCgender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
         jLabel16.setBackground(new java.awt.Color(255, 255, 255));
         jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(35, 40, 45));
         jLabel16.setText("Full Address");
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCAddress.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("ADD");
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAdd.setText("ADD");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("EDIT");
+        btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnEdit.setText("EDIT");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setText("DELETE");
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDelete.setText("DELETE");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
 
         jLabel19.setBackground(new java.awt.Color(255, 255, 255));
         jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(35, 40, 45));
         jLabel19.setText("COACHS LIST");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        CoachTable.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        CoachTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -631,8 +651,14 @@ public class CoachForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setRowHeight(25);
-        jScrollPane1.setViewportView(jTable1);
+        CoachTable.setGridColor(new java.awt.Color(102, 102, 102));
+        CoachTable.setRowHeight(29);
+        CoachTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CoachTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(CoachTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -647,24 +673,24 @@ public class CoachForm extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel16)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel6))
                                         .addGap(39, 39, 39)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel13))
                                         .addGap(62, 62, 62)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCAge, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel14))
                                         .addGap(55, 55, 55)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel15)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(CbxCgender, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(104, 104, 104))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -673,25 +699,27 @@ public class CoachForm extends javax.swing.JFrame {
                                         .addGap(178, 178, 178)
                                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(187, 187, 187)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(43, 43, 43)
-                                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(41, 41, 41)
-                                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 29, Short.MAX_VALUE)))
+                                        .addGap(187, 187, 187)
+                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(41, 41, 41)
+                                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 207, Short.MAX_VALUE)))
                                 .addContainerGap())))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(384, 384, 384)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel19)
-                        .addGap(399, 399, 399))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(384, 384, 384)
-                        .addComponent(jLabel9)
-                        .addContainerGap())))
+                        .addGap(440, 440, 440))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -706,32 +734,32 @@ public class CoachForm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCAge, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CbxCgender, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(32, 32, 32)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -766,6 +794,116 @@ public class CoachForm extends javax.swing.JFrame {
         new PaymentForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
+    
+    Connection con = null;
+    PreparedStatement pst  = null;
+    ResultSet rs = null, rs1 = null;
+    Statement st = null, st1 = null;
+    private void DisplayCoach()
+    {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gym_db","root","");
+            st = con.createStatement();
+            rs = st.executeQuery("select * from CoachTbl");
+            CoachTable.setModel(DbUtils.resultSetToTableModel(rs));
+        } 
+        catch (Exception e) {
+        }
+    }
+    int Cnum = 0;
+    private void CountCoach()
+    {
+        try {
+            st1 = con.createStatement();
+            rs1 = st1.executeQuery("select MAX(CID) from CoachTbl");
+            rs1.next();
+            Cnum = rs1.getInt(1)+1;
+        } catch (Exception e) {
+        }
+    }
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        if(txtCName.getText().isEmpty() || txtCPhone.getText().isEmpty() || txtCAge.getText().isEmpty() || txtCAddress.getText().isEmpty() || CbxCgender.getSelectedIndex() == -1)
+        {
+            JOptionPane.showMessageDialog(this,"Missing information !!");
+        }
+        else
+        {
+            try {
+                CountCoach();
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gym_db","root","");
+                PreparedStatement Add = con.prepareStatement("insert into CoachTbl values(?,?,?,?,?,?)");
+                Add.setInt(1,Cnum);
+                Add.setString(2, txtCName.getText());
+                Add.setString(3, txtCPhone.getText());
+                Add.setInt(4, Integer.parseInt(txtCAge.getText()));
+                Add.setString(5, txtCAddress.getText());
+                Add.setString(6, CbxCgender.getSelectedItem().toString());
+                int row = Add.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Trainer Saved.");
+                con.close();
+                DisplayCoach();
+            } 
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(this,e);
+            }
+        }
+    }//GEN-LAST:event_btnAddMouseClicked
+    int Key = 0;
+    private void CoachTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CoachTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)CoachTable.getModel();
+        int MyIndex = CoachTable.getSelectedRow();
+        Key = Integer.parseInt(model.getValueAt(MyIndex, 0).toString());
+        txtCName.setText(model.getValueAt(MyIndex, 1).toString());
+        txtCPhone.setText(model.getValueAt(MyIndex, 2).toString());
+        txtCAge.setText(model.getValueAt(MyIndex, 3).toString());
+        txtCAddress.setText(model.getValueAt(MyIndex, 4).toString());
+        CbxCgender.setSelectedItem(model.getValueAt(MyIndex, 5).toString());
+    }//GEN-LAST:event_CoachTableMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        if(Key == 0)
+        {
+            JOptionPane.showMessageDialog(this, "select the coach to delete.");
+        }
+        else{
+            try {
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gym_db","root","");
+                String Query = "Delete from CoachTbl where CID="+Key;
+                Statement Del = con.createStatement();
+                Del.executeUpdate(Query);
+                JOptionPane.showMessageDialog(this, "Coach Deleted.");
+                DisplayCoach();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteMouseClicked
+
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+        if(Key == 0)
+        {
+            JOptionPane.showMessageDialog(this, "select the coach to edit.");
+        }
+        else
+        {
+            try {
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gym_db","root","");
+                String Query = "Update CoachTbl set CNAME = ?,CPHONE = ?, CAGE = ?, CADDRESS = ?, CGENDER = ? where CID = ?";
+                PreparedStatement Edit = con.prepareStatement(Query);
+                Edit.setString(1,txtCName.getText());
+                Edit.setString(2,txtCPhone.getText());
+                Edit.setInt(3, Integer.parseInt(txtCAge.getText()));
+                Edit.setString(4, txtCAddress.getText());
+                Edit.setString(5, CbxCgender.getSelectedItem().toString());
+                Edit.setInt(6, Key);
+                int row = Edit.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Trainer Update.");
+                con.close();
+                DisplayCoach();
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_btnEditMouseClicked
 
     /**
      * @param args the command line arguments
@@ -803,13 +941,14 @@ public class CoachForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> CbxCgender;
+    private javax.swing.JTable CoachTable;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
@@ -841,34 +980,13 @@ public class CoachForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -876,18 +994,16 @@ public class CoachForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField txtCAddress;
+    private javax.swing.JTextField txtCAge;
+    private javax.swing.JTextField txtCName;
+    private javax.swing.JTextField txtCPhone;
     // End of variables declaration//GEN-END:variables
 }
